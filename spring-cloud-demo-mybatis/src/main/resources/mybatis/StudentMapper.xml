@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="demo.mybatis.mapper.StudentMapper">
+    <resultMap id="student" type="demo.mybatis.domain.Student">
+        <result column="student_num" property="studentNum"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="interest" property="interest"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="insertStudent">
+        insert into student(student_num,name,age,interest,create_time)
+        values(#{studentNum},#{name},#{age},#{interest},now())
+    </insert>
+
+    <select id="getStudent" resultMap="student">
+        select student_num,name,age,interest,create_time from student where student_num=#{studentNum}
+    </select>
+</mapper>

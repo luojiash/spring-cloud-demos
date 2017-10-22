@@ -11,10 +11,11 @@
     <parent>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-parent</artifactId>
-        <version>Brixton.SR7</version>
+        <version>Camden.SR7</version>
     </parent>
 
     <modules>
+        <module>spring-cloud-demo-mybatis</module>
         <module>spring-cloud-demo-web</module>
     </modules>
 
