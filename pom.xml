@@ -11,12 +11,13 @@
     <parent>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-parent</artifactId>
-        <version>Camden.SR7</version>
+        <version>Edgware.SR3</version>
     </parent>
 
     <modules>
         <module>spring-cloud-demo-mybatis</module>
         <module>spring-cloud-demo-web</module>
+        <module>spring-security-demo</module>
     </modules>
 
     <properties>
