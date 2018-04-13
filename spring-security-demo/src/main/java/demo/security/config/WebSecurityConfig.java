@@ -3,6 +3,7 @@ package demo.security.config;
 import demo.security.MyAuthenticationFailureHandler;
 import demo.security.MyAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -11,7 +12,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import java.util.LinkedHashMap;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -27,12 +36,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).and()
                 .csrf().disable()
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
                 .permitAll()
                 .withObjectPostProcessor(new ObjectPostProcessor<UsernamePasswordAuthenticationFilter>() {
                     @Override
@@ -43,6 +52,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     }
                 })
         ;
+    }
+
+    private AuthenticationEntryPoint authenticationEntryPoint() {
+        LinkedHashMap<RequestMatcher, AuthenticationEntryPoint> entryPoints = new LinkedHashMap<>();
+        entryPoints.put(
+                new RequestHeaderRequestMatcher("X-Requested-With", "XMLHttpRequest"),
+                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+
+        DelegatingAuthenticationEntryPoint entryPoint = new DelegatingAuthenticationEntryPoint(entryPoints);
+        entryPoint.setDefaultEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
+        return entryPoint;
     }
 
     @Override

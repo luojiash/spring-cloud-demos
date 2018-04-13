@@ -67,6 +67,8 @@
     <!-- Custom Theme JavaScript -->
     <script src="/resources/lib/sb-admin-2/js/sb-admin-2.js"></script>
 
+    <script src="/resources/admin.js"></script>
+
     <script>
         $('form').submit(function (e) {
             e.preventDefault();
@@ -74,7 +76,7 @@
                 alert('file is required');
                 return;
             }
-            $.ajax({
+            ajax({
                 url: 'upload',
                 type: 'POST',
 
