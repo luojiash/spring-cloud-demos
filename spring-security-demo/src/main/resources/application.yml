@@ -3,3 +3,7 @@ spring:
     settings:
       boolean_format: yes,no
       number_format: computer
+  http:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 10MB
