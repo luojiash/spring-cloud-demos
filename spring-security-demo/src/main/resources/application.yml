@@ -1,0 +1,5 @@
+spring:
+  freemarker:
+    settings:
+      boolean_format: yes,no
+      number_format: computer
