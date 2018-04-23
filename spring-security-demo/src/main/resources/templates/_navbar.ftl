@@ -265,6 +265,13 @@
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
+            <@menu>
+                <#list menus as menu>
+                    <li>
+                        <a href="${menu.path}"><i class="fa fa-fw"></i>${menu.name}</a>
+                    </li>
+                </#list>
+            </@menu>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
