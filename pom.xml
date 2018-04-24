@@ -16,6 +16,7 @@
 
     <modules>
         <module>spring-cloud-demo-mybatis</module>
+        <module>spring-cloud-demo-thrift</module>
         <module>spring-cloud-demo-web</module>
         <module>spring-security-demo</module>
     </modules>
