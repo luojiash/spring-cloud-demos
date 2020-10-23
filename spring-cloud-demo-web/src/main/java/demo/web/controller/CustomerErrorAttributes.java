@@ -1,11 +1,12 @@
 package demo.web.controller;
 
-import org.springframework.boot.autoconfigure.web.ErrorAttributes;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -38,17 +39,17 @@ public class CustomerErrorAttributes implements ErrorAttributes, HandlerExceptio
     }
 
     @Override
-    public Map<String, Object> getErrorAttributes(RequestAttributes requestAttributes,
+    public Map<String, Object> getErrorAttributes(WebRequest webRequest,
                                                   boolean includeStackTrace) {
         Map<String, Object> errorAttributes = new LinkedHashMap<String, Object>();
 
-        addErrorDetails(errorAttributes, requestAttributes, includeStackTrace);
+        addErrorDetails(errorAttributes, webRequest, includeStackTrace);
         return errorAttributes;
     }
 
     private void addErrorDetails(Map<String, Object> errorAttributes,
-                                 RequestAttributes requestAttributes, boolean includeStackTrace) {
-        Throwable error = getError(requestAttributes);
+                                 WebRequest webRequest, boolean includeStackTrace) {
+        Throwable error = getError(webRequest);
         if (error != null) {
             while (error instanceof ServletException && error.getCause() != null) {
                 error = ((ServletException) error).getCause();
@@ -59,7 +60,7 @@ public class CustomerErrorAttributes implements ErrorAttributes, HandlerExceptio
                 addStackTrace(errorAttributes, error);
             }
         }
-        Object message = getAttribute(requestAttributes, "javax.servlet.error.message");
+        Object message = getAttribute(webRequest, "javax.servlet.error.message");
         if ((!StringUtils.isEmpty(message) || errorAttributes.get("message") == null)
                 && !(error instanceof BindingResult)) {
             errorAttributes.put("message",
@@ -101,10 +102,10 @@ public class CustomerErrorAttributes implements ErrorAttributes, HandlerExceptio
     }
 
     @Override
-    public Throwable getError(RequestAttributes requestAttributes) {
-        Throwable exception = getAttribute(requestAttributes, ERROR_ATTRIBUTE);
+    public Throwable getError(WebRequest webRequest) {
+        Throwable exception = getAttribute(webRequest, ERROR_ATTRIBUTE);
         if (exception == null) {
-            exception = getAttribute(requestAttributes, "javax.servlet.error.exception");
+            exception = getAttribute(webRequest, "javax.servlet.error.exception");
         }
         return exception;
     }
