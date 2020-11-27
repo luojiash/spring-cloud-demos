@@ -19,6 +19,8 @@
         <module>spring-cloud-demo-thrift</module>
         <module>spring-cloud-demo-web</module>
         <module>spring-security-demo</module>
+        <module>spring-kafka-demo</module>
+        <module>spring-kafka-embed</module>
     </modules>
 
     <properties>

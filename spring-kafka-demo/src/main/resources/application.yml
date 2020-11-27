@@ -1,0 +1,11 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094,localhost:9095
+    listener:
+      ack-mode: manual
+    consumer:
+      group-id: fish-group
+      enable-auto-commit: false
+      auto-offset-reset: earliest
+    producer:
+      acks: all
