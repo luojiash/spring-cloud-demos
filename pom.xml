@@ -21,6 +21,7 @@
         <module>spring-security-demo</module>
         <module>spring-kafka-demo</module>
         <module>spring-kafka-embed</module>
+        <module>spring-redis-demo</module>
     </modules>
 
     <properties>
